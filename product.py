@@ -1,4 +1,4 @@
-import category from Category
+import category
 
 class Product(category.Category):
     def __init__(self, name, description, date_fabrication, is_active):
