@@ -1,0 +1,6 @@
+import client
+
+class Client_SocialNetwork(client.Client):
+    def __init__(self):
+        pass
+    
