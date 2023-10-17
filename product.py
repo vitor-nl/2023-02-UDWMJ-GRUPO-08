@@ -7,3 +7,5 @@ class Product(category.Category):
         self.date_fabrication = date_fabrication
         self.is_active = is_active
         
+ 
+  
