@@ -14,8 +14,8 @@ class User(models.Model):
         ('O', 'Outro'),
     )
     gender = models.CharField('Genero', max_length=1, choices=GENDER_CHOICES)
-    birth_date = models.DateField()
-
+    birth_date = models.DateField('Data de nascimento',)
+    password = models.CharField('Senha', max_length=20)
     
     class Meta:
         verbose_name = 'User'
