@@ -1,9 +1,9 @@
-from django.urls import path, include
-from user.views import user_create, users
-from rest_framework import routers
+from django.urls import path
+from user.views import user_create, user_list, user
 
 app_name = 'user'
 urlpatterns = [
     path('', user_create),
-    path('list/', users)
+    path('list/', user_list),
+    path('<int:pk>', user),
 ]
