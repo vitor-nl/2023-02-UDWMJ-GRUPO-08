@@ -2,28 +2,26 @@ from rest_framework import serializers
 from user.models import User
 
 class UserSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    first_name = serializers.CharField()
-    last_name = serializers.CharField() 
-    address = serializers.CharField()   
-    cell_phone = serializers.CharField()
-    email = serializers.EmailField()
-    gender = serializers.CharField()
-    birth_date = serializers.DateField()
-    password = serializers.CharField()
 
-    def create(self, data):
-        return User.objects.create(**data)
+    confirm_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     
-    def update(self, instance, data):
-        instance.first_name = data.get('Nome',instance.first_name)
-        instance.last_name = data.get('Sobrenome',instance.last_name)
-        instance.address = data.get('Endereco',instance.address)
-        instance.cell_phone = data.get('Telefone celular',instance.cell_phone)
-        instance.email = data.get('E-mail',instance.email)
-        instance.gender = data.get('Genero',instance.gender)
-        instance.birth_date = data.get('Data de nascimento',instance.birth_date)
-        instance.password = data.get('Senha',instance.password)
-        
-        instance.save()
-        return instance
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'password', 'confirm_password']
+        extra_kwargs = {
+                'password': {'write_only': True}
+        }
+
+def create(self):
+        user = User(
+            username=self.validated_data['username'],
+            email=self.validated_data['email']
+        )
+        password = self.validated_data['password']
+        confirm_password = self.validated_data['confirm_password']
+
+        if password != confirm_password:
+             raise serializers.ValidationError({'password': 'Passwords must match'})
+        user.set_password(password)
+        user.save()
+        return user

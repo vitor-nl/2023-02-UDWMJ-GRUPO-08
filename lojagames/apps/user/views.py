@@ -1,44 +1,25 @@
-from .models import User
-from django.shortcuts import render
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework import viewsets
 from rest_framework.decorators import api_view
-from user.serializer import UserSerializer
+from .serializer import UserSerializer
+from .models import User
+from django.shortcuts import render,redirect
 
-# Create your views here.
-@api_view(['GET'])
-def user_list(request):
-    users = User.objects.all() #Complex Data
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
-    
+#Create your views here.
+
+def home(request):
+    return render(request,'home.html')
+
 @api_view(['POST'])
-def user_create(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    else:
-        return Response(serializer.errors)
-    
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def user(request, pk):
-    user = User.objects.get(pk=pk)
-    if request.method == 'GET':
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-    
-    if request.method == "PUT":
-        serializer = UserSerializer(user, data=request.data)
+def user_register(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        data={}
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return serializer.errors
-    
-    if request.method == 'DELETE':
-        user.delete()
-        return Response({
-            'delete': True
-        })
-    
+            User = serializer.create()
+            data['response']=  "New user crated successfully"
+            data['username'] = User.username
+            data['email'] = User.email
+        else:
+            data = serializer.errors
+        return Response(data)
