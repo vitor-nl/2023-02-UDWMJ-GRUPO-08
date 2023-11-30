@@ -1,4 +1,4 @@
-from .models import Games
+from games.models import Games
 from rest_framework import serializers
 
 class GamesSerializer(serializers.ModelSerializer):

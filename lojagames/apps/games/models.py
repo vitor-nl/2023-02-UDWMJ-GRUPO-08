@@ -10,7 +10,7 @@ class Games(models.Model):
     release_date = models.DateField('Data de Lançamento', auto_now=False, auto_now_add=False)
 
     class Meta:
-        verbose_name = 'Game'
+        verbose_name = 'Games'
         verbose_name_plural = 'Games'
         ordering =['id']
 
