@@ -13,6 +13,6 @@ def game_list(request):
         'games' : gamesPython
     })
 
-class GamesViewSet(viewsets.ModelViewSet):
-  queryset = Games.objects.all()
-  serializer_class = GamesSerializer 
+#class GamesViewSet(viewsets.ModelViewSet):
+#  queryset = Games.objects.all()
+#  serializer_class = GamesSerializer 
