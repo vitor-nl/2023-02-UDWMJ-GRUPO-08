@@ -14,6 +14,6 @@ class GamesSerializer(serializers.ModelSerializer):
         return Games.objects.create(**data)
 
 
-    #class Meta:
-    #    model = Games
-    #    fields = '__all__'
+    class Meta:
+        model = Games
+        fields = '__all__'
