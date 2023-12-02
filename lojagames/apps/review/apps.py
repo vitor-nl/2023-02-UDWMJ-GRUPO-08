@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class GamesConfig(AppConfig):
+class ReviewConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'games'
-    verbose_name = 'Games'
+    name = 'review'
+    verbose_name = 'Reviews'

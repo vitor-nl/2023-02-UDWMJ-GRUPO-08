@@ -1,19 +1,19 @@
-from games.models import Games
+from .models import Review
 from rest_framework import serializers
-from games.models import Games
+from .models import Review
 
-class GamesSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
     description = serializers.CharField()
     review = serializers.CharField() 
-    note = serializers.IntegerField()
+    rating = serializers.IntegerField()
     release_date = serializers.DateField()
     
     def create(self, data):
-        return Games.objects.create(**data)
+        return Review.objects.create(**data)
 
 
     class Meta:
-        model = Games
+        model = Review
         fields = '__all__'

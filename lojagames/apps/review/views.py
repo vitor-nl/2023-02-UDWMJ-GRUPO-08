@@ -3,20 +3,20 @@ from django.http import JsonResponse
 #from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from games.models import Games
-from games.serializer import GamesSerializer
+from .models import Review
+from .serializer import ReviewSerializer
 
 # Create your views here.
 
 @api_view(['GET'])
-def game_list(request):
-    games = Games.objects.all()
-    serializer = GamesSerializer(games, many=True)
+def review_list(request):
+    review = Review.objects.all()
+    serializer = ReviewSerializer(review, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
-def game_create(request):
-    serializer = GamesSerializer(data=request.data)
+def review_create(request):
+    serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
