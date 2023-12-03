@@ -2,12 +2,13 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
 from django.shortcuts import render
 from .serializer import UserSerializer
 from .models import User
+from rest_framework.authtoken.views import obtain_auth_token 
 
 
 #Create your views here.
@@ -17,6 +18,7 @@ def home(request):
 
 
 @api_view(['POST'])
+@permission_classes((AllowAny,))
 def user_register(request):
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
@@ -27,6 +29,7 @@ def user_register(request):
     
 
 @api_view(['POST'])
+@permission_classes((AllowAny,))
 def user_login(request):
     if request.method == 'POST':
         username = request.data.get('username')
@@ -52,6 +55,7 @@ def user_login(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
+    obtain_auth_token
     if request.method == 'POST':
         try:
             # Delete the user's token to logout
