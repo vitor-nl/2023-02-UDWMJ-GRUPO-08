@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-#from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 from .models import Review
 from .serializer import ReviewSerializer
 
@@ -21,10 +21,28 @@ def review_create(request):
         serializer.save()
         return Response(serializer.data)
     else:
-        return Response(serializer.errors) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
+@api_view(['GET', 'PUT', 'DELETE'])
+def review(request, pk):
+    try:
+        review = Review.objects.get(pk=pk)
+    except:
+        return Response({
+            'error': 'Review does not exist'
+        }, status=status.HTTP_404_NOT_FOUND)
 
-
-#class GamesViewSet(viewsets.ModelViewSet):
-#  queryset = Games.objects.all()
-#  serializer_class = GamesSerializer
+    if request.method == 'GET':
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data)
+    
+    if request.method == 'PUT':
+        serializer = ReviewSerializer(review, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        return serializer.errors
+    
+    if request.method == 'DELETE':
+        review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
