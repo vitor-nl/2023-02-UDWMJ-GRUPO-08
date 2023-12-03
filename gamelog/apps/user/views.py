@@ -9,13 +9,13 @@ from django.shortcuts import render
 from .serializer import UserSerializer
 from .models import User
 from rest_framework.authtoken.views import obtain_auth_token 
-from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth import login, logout
 
 
 #Create your views here.
 
-def base(request):
-    return render(request,'home.html')
+def menu(request):
+    return render(request,'menu.html')
 
 
 @api_view(['POST'])
@@ -56,7 +56,7 @@ def user_login(request):
             login(request, user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
 
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'error': 'Username or password not correspond'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
