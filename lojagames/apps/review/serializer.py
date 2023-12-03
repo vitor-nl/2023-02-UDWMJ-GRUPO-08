@@ -12,6 +12,17 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     def create(self, data):
         return Review.objects.create(**data)
+    
+
+    def update(self, instance, data):
+        instance.name = data.get('name', instance.name)
+        instance.description = data.get('description', instance.description)
+        instance.review = data.get('review', instance.review)
+        instance.rating = data.get('rating', instance.rating)
+        instance.release_date = data.get('release_date', instance.release_date)
+
+        instance.save()
+        return instance
 
 
     class Meta:
