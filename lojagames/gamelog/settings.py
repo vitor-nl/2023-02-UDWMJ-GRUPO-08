@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'lojagames.urls'
+ROOT_URLCONF = 'gamelog.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'lojagames.wsgi.application'
+WSGI_APPLICATION = 'gamelog.wsgi.application'
 
 
 # Database

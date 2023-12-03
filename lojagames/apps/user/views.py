@@ -9,11 +9,12 @@ from django.shortcuts import render
 from .serializer import UserSerializer
 from .models import User
 from rest_framework.authtoken.views import obtain_auth_token 
+from django.contrib.auth import get_user_model, login, logout
 
 
 #Create your views here.
 
-def home(request):
+def base(request):
     return render(request,'home.html')
 
 
@@ -25,7 +26,11 @@ def user_register(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
     
 
 @api_view(['POST'])
@@ -46,20 +51,21 @@ def user_login(request):
             user = authenticate(username=username, password=password)
 
         if user:
+            
             token, _ = Token.objects.get_or_create(user=user)
+            login(request, user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def user_logout(request):
-    obtain_auth_token
     if request.method == 'POST':
         try:
             # Delete the user's token to logout
-            request.user.auth_token.delete()
+            logout(request)
             return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
