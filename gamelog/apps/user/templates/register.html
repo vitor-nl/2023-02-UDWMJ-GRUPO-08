@@ -36,13 +36,32 @@
         <form method="POST">
           {% csrf_token %}
           <label for="Username">Username</label>
-          <input type="text" placeholder="" />
+          <input type="text" placeholder="" id="" name="username" onsubmit="handleSubmit(event)"/>
           <label>Email</label>
-          <input type="email" placeholder="" />
+          <input type="email" placeholder="" id="" name="email" onsubmit="handleSubmit(event)"/>
           <label>Password</label>
-          <input type="password" placeholder="" />
+          <input type="password" placeholder="" id="" name="password" onsubmit="handleSubmit(event)"/>
           <input type="submit" class="" value="Register" />
         </form>
+        <script>
+          const formEl = document.querySelector('.form');
+
+          formEl.addEventListener('submit', event =>{
+            event.preventDefault();
+
+            const formData =new FormData(formEl);
+            const data = Object.fromEntries(formData);
+
+            fetch('http://127.0.0.1:8000/user/register/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            });
+
+          })
+        </script>
         <p class="para-2">
           Already have an account? <a href="login.html">Login here</a>
         </p>

@@ -15,22 +15,19 @@ from django.contrib.auth import login, logout
 #Create your views here.
 
 def menu(request):
-    return render(request,'register.html')
-
+    return render(request,'menu.html')
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))
 def user_register(request):
     if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
+        serializer = UserSerializer(request.POST)
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-            
+            return render(request,'register.html', {'user_register':user_register})            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     return render(request,'register.html', {'user_register':user_register})
-    
     
 
 @api_view(['POST'])
