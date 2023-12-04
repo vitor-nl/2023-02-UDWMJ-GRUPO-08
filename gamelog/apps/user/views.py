@@ -21,8 +21,8 @@ def menu(request):
 @permission_classes((AllowAny,))
 def user_register(request):
     if request.method == 'POST':
-        serializer = UserSerializer(request.POST)
-        if serializer.is_valid(raise_exception=True):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
             serializer.save()
             return render(request,'register.html', {'user_register':user_register})            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
