@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Review
 from .serializer import ReviewSerializer
+from user.views import user_login
+
 
 # Create your views here.
 
@@ -23,6 +25,8 @@ def review_list(request):
 
 @api_view(['POST'])
 def review_create(request):
+    user = user_login.objects.get(request = request.data)
+    #if token == user:
     serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()

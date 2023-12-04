@@ -15,7 +15,7 @@ from django.contrib.auth import login, logout
 #Create your views here.
 
 def menu(request):
-    return render(request,'menu.html')
+    return render(request,'register.html')
 
 
 @api_view(['POST'])
@@ -29,7 +29,7 @@ def user_register(request):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    
+    return render(request,'register.html', {'user_register':user_register})
     
     
 
