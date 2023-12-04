@@ -1,24 +1,22 @@
-from .models import Review
+from .models import Wishlist
 from rest_framework import serializers
-from .models import Review
+from .models import Wishlist
 
-class ReviewSerializer(serializers.ModelSerializer):
+class WishlistSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
     description = serializers.CharField()
-    review = serializers.CharField() 
-    rating = serializers.FloatField()
+    price = serializers.FloatField()
     release_date = serializers.DateField()
     
     def create(self, data):
-        return Review.objects.create(**data)
+        return Wishlist.objects.create(**data)
     
 
     def update(self, instance, data):
         instance.name = data.get('name', instance.name)
         instance.description = data.get('description', instance.description)
-        instance.review = data.get('review', instance.review)
-        instance.rating = data.get('rating', instance.rating)
+        instance.price = data.get('price', instance.price)
         instance.release_date = data.get('release_date', instance.release_date)
 
         instance.save()
@@ -26,5 +24,5 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        model = Review
+        model = Wishlist
         fields = '__all__'
