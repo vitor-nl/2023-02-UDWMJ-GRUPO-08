@@ -10,6 +10,7 @@ from rest_framework import status
 from .serializer import ReviewSerializer
 from user.views import user_login
 from user.models import User
+from django.contrib.auth import login
 
 
 # Create your views here.
@@ -28,15 +29,20 @@ def review_list(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def review_create(request):
+    #user = User.objects.get(all)
+    #token = request.auth
+    #if token == user:
+    request.user.is_authenticated()
     user = User.objects.get(all)
-    token = request.auth
-    if token == user:
-        serializer = ReviewSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+    login(request, user)
+
+    
+    serializer = ReviewSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def review(request, pk):

@@ -20,6 +20,7 @@ def menu(request):
 @api_view(['POST'])
 @permission_classes((AllowAny,))
 def user_register(request):
+    render(request,'register.html', {'user_register':user_register})
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
