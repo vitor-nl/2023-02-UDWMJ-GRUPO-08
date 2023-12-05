@@ -1,9 +1,11 @@
 from .models import Review
 from rest_framework import serializers
 from .models import Review
+from user.models import User
 
 class ReviewSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    created_by = serializers.PrimaryKeyRelatedField(read_only=True)
     name = serializers.CharField()
     description = serializers.CharField()
     review = serializers.CharField() 
@@ -15,6 +17,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     
 
     def update(self, instance, data):
+        instance.created_by = data.get('created_by', instance.created_by)
         instance.name = data.get('name', instance.name)
         instance.description = data.get('description', instance.description)
         instance.review = data.get('review', instance.review)
