@@ -18,14 +18,13 @@ def menu(request):
 @api_view(['POST'])
 @permission_classes([AllowAny,])
 def user_register(request):
-    render(request,'register.html')
+    render(request,'register.html', {'user_register':user_register})
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return render(request,'register.html', {'user_register':user_register})
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
