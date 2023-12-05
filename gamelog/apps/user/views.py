@@ -17,7 +17,7 @@ def menu(request):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny,])
 def user_register(request):
     render(request,'register.html', {'user_register':user_register})
     if request.method == 'POST':
@@ -31,6 +31,7 @@ def user_register(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def user_login(request):
+    render(request,'login.html', {'user_login':user_login})
     if request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
