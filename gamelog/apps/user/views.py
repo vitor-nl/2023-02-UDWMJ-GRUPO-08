@@ -2,21 +2,22 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
 from django.shortcuts import render
 from .serializer import UserSerializer
 from .models import User
-
+from django.contrib.auth import login, logout
 
 #Create your views here.
 
 def home(request):
-    return render(request,'home.html')
+    return render(request,'menu.html')
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def user_register(request):
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
@@ -27,6 +28,7 @@ def user_register(request):
     
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def user_login(request):
     if request.method == 'POST':
         username = request.data.get('username')
@@ -44,6 +46,7 @@ def user_login(request):
 
         if user:
             token, _ = Token.objects.get_or_create(user=user)
+            login(request, user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -55,7 +58,7 @@ def user_logout(request):
     if request.method == 'POST':
         try:
             # Delete the user's token to logout
-            request.user.auth_token.delete()
+            logout(request)
             return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
