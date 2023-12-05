@@ -5,7 +5,6 @@ from user.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    confirm_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
