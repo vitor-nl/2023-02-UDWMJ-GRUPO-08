@@ -17,12 +17,12 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-primary me-md-2" type="button" href="http://127.0.0.1:8000/user/login">Login</a>
-        <a class="btn btn-primary me-md-2" type="button" href="http://127.0.0.1:8000/user/register">Register</a>
+        <a class="btn btn-primary me-md-2" type="button" href="http://127.0.0.1:8000/login">Login</a>
+        <a class="btn btn-primary me-md-2" type="button" href="http://127.0.0.1:8000/register">Register</a>
       </div>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/user">Home</a>
+          <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000">Home</a>
           <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/review">Reviews</a>
         </div>
         
@@ -52,7 +52,7 @@
             const formData =new FormData(formEl);
             const data = Object.fromEntries(formData);
 
-            fetch('http://127.0.0.1:8000/user/register/', {
+            fetch('http://127.0.0.1:8000/register/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
