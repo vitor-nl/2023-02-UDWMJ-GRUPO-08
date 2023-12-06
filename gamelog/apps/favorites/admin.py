@@ -18,7 +18,7 @@ class FavoritesAdmin(admin.ModelAdmin):
         super(FavoritesAdmin, self).save_model(request, obj, form, change)
 
     def get_queryset(self, request): 
-       qs = super(FavoritesAdmin, self).get_queryset(request)
+       #qs = super(FavoritesAdmin, self).get_queryset(request)
        qs = qs.filter(created_by=request.user)
        return qs
 
