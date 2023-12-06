@@ -1,7 +1,6 @@
 from .models import Review
 from rest_framework import serializers
 from .models import Review
-from user.models import User
 
 class ReviewSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
