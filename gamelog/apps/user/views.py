@@ -26,13 +26,13 @@ def user_register(request):
             return render(request,'menu.html')
     return render(request,'register.html', {'user_register':user_register})
 
-@api_view(['POST'])
+
 @permission_classes([AllowAny])
 def user_login(request):
     render(request,'login.html', {'user_login':user_login})
     if request.method == 'POST':
-        username = request.data.get('username')
-        password = request.data.get('password')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = None
         if '@' in username:
@@ -47,9 +47,11 @@ def user_login(request):
         if user:
             token, _ = Token.objects.get_or_create(user=user)
             login(request, user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            
+        return render(request,'login.html', {'user_login':user_login})
 
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+    return render(request,'login.html', {'user_login':user_login})
 
 
 @api_view(['POST'])
