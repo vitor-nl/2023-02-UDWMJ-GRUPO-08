@@ -4,6 +4,7 @@ from .models import Wishlist
 
 class WishlistSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    created_by = serializers.PrimaryKeyRelatedField(read_only=True)
     name = serializers.CharField()
     description = serializers.CharField()
     price = serializers.FloatField()
@@ -14,6 +15,7 @@ class WishlistSerializer(serializers.ModelSerializer):
     
 
     def update(self, instance, data):
+        instance.created_by = data.get('created_by', instance.created_by)
         instance.name = data.get('name', instance.name)
         instance.description = data.get('description', instance.description)
         instance.price = data.get('price', instance.price)

@@ -1,9 +1,10 @@
 from django.db import models
+from user.models import User
 
 # Create your models here.
 
-
 class Wishlist(models.Model):
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField('Nome', max_length=50)
     description = models.TextField('Descricao', max_length=100)
     price = models.FloatField('Preço')
