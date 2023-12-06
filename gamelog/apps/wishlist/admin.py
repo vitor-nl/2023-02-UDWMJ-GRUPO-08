@@ -10,17 +10,17 @@ from .models import Wishlist
 admin.site.is_registered(User)
 
 class WishlistAdmin(admin.ModelAdmin):
-   readonly_fields = ('created_by',)
+    readonly_fields = ('created_by',)
 
-  #  def save_model(self, request, obj, form, change):
-   #     user = request.user
-    #    obj.review = user
-    #    super(WishlistAdmin, self).save_model(request, obj, form, change)
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        obj.created_by = user
+        super(WishlistAdmin, self).save_model(request, obj, form, change)
 
-    #def get_queryset(self, request): 
-    #   qs = super(WishlistAdmin, self).get_queryset(request)
-    #   qs = qs.filter(created_by=request.user)
-    #   return qs
+    def get_queryset(self, request): 
+       qs = super(WishlistAdmin, self).get_queryset(request)
+       qs = qs.filter(created_by=request.user)
+       return qs
 
 
 admin.site.register(Wishlist, WishlistAdmin)

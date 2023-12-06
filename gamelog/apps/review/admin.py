@@ -13,7 +13,7 @@ class ReviewAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         user = request.user
-        obj.review = user
+        obj.created_by = user
         super(ReviewAdmin, self).save_model(request, obj, form, change)
 
     def get_queryset(self, request): 
