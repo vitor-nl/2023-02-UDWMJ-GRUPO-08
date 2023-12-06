@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'review.apps.ReviewConfig',
     'wishlist.apps.WishlistConfig',
+    'favorites.apps.FavoritesConfig',
     'rest_framework.authtoken',
 
 ]
