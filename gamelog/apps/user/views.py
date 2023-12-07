@@ -47,7 +47,7 @@ def user_login(request):
         if user:
             token, _ = Token.objects.get_or_create(user=user)
             login(request, user)
-        return render(request,'login.html', {'user_login':user_login})
+        return render(request,'menu.html')
 
         
     return render(request,'login.html', {'user_login':user_login})
