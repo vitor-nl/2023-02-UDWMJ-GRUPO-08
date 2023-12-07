@@ -1,7 +1,7 @@
 ﻿from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from django.core.exceptions import ObjectDoesNotExist
@@ -26,13 +26,13 @@ def user_register(request):
             return render(request,'menu.html')
     return render(request,'register.html', {'user_register':user_register})
 
-@api_view(['POST'])
+
 @permission_classes([AllowAny])
 def user_login(request):
     render(request,'login.html', {'user_login':user_login})
     if request.method == 'POST':
-        username = request.data.get('username')
-        password = request.data.get('password')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = None
         if '@' in username:
@@ -47,21 +47,23 @@ def user_login(request):
         if user:
             token, _ = Token.objects.get_or_create(user=user)
             login(request, user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        return render(request,'login.html', {'user_login':user_login})
 
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+    return render(request,'login.html', {'user_login':user_login})
 
 
-@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
+    render(request,'logout.html', {'user_logout':user_logout})
     if request.method == 'POST':
         try:
             # Delete the user's token to logout
             logout(request)
-            return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
+            return redirect("http://127.0.0.1:8000")
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return render(request,'logout.html', {'user_logout':user_logout})
+    return render(request,'logout.html', {'user_logout':user_logout})
 
 
 '''
